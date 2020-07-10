@@ -2,13 +2,18 @@ package com.jvetter2.maketime;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.View;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -23,44 +28,48 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private FloatingActionButton fab;
+    FragmentManager mFragmentManager;
+
+    public static ArrayList<String> eventNames = new ArrayList();
+    public static ArrayList<String> eventTimeOfDay = new ArrayList();
+    public static ArrayList<String> eventDate = new ArrayList();
+    public static ArrayList<String> eventDuration = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mFragmentManager = this.getSupportFragmentManager();
+
         SharedPreferences preferences =
                 getSharedPreferences("my_preferences", MODE_PRIVATE);
 
-        if(!preferences.getBoolean("onboarding_completed",false)){
-
-            Intent onboarding = new Intent(this, OnboardingActivity.class);
-            startActivity(onboarding);
-
-            finish();
-            return;
-        }
+        initializeDatabase();
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                fab.hide();
+                FragmentTransaction ft = mFragmentManager.beginTransaction();
+                ft.addToBackStack(AddEditFragment.TAG);
+                ft.replace(R.id.fragment_home, new AddEditFragment(), AddEditFragment.TAG);
+                ft.commit();
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share)
+                R.id.nav_home)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -80,5 +89,63 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mFragmentManager.getBackStackEntryCount() > 0) {
+            mFragmentManager.popBackStackImmediate();
+            if (fab.isOrWillBeHidden()) {
+                fab.show();
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void initializeDatabase() {
+        eventNames.clear();
+        eventTimeOfDay.clear();
+        eventDate.clear();
+        eventDuration.clear();
+
+        SQLiteDatabase myDatabase = this.openOrCreateDatabase("events", MODE_PRIVATE, null);
+
+        try {
+            myDatabase.execSQL("CREATE TABLE IF NOT EXISTS events (name VARCHAR, time VARCHAR, " +
+                    "date VARCHAR, duration VARCHAR)");
+
+            //myDatabase.execSQL("INSERT INTO events VALUES('SkyHarp', 'Morning', '01/01/2020', '30 Minutes');");
+
+            Cursor c = myDatabase.rawQuery("SELECT * FROM events ORDER BY name COLLATE NOCASE ASC", null);
+
+            int nameIndex = c.getColumnIndex("name");
+            int timeIndex = c.getColumnIndex("time");
+            int dateIndex = c.getColumnIndex("date");
+            int durationIndex = c.getColumnIndex("duration");
+
+            c.moveToFirst();
+
+            while (!c.isAfterLast()) {
+                Log.i("name: ", c.getString(nameIndex));
+                Log.i("time: ", c.getString(timeIndex));
+                Log.i("date: ", c.getString(dateIndex));
+                Log.i("duration: ", c.getString(durationIndex));
+
+                eventNames.add(c.getString(nameIndex));
+                eventTimeOfDay.add(c.getString(timeIndex));
+                eventDate.add(c.getString(dateIndex));
+                eventDuration.add(c.getString(durationIndex));
+
+                c.moveToNext();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

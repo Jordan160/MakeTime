@@ -1,6 +1,7 @@
 package com.jvetter2.maketime;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jvetter2.maketime.ui.home.HomeFragment;
@@ -17,28 +20,31 @@ import com.jvetter2.maketime.ui.home.HomeFragment;
 import java.util.ArrayList;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
-    private ArrayList<Event> event;
-    ItemClicked activity;
+    private ArrayList<Event> eventList;
+    private CardView eventView;
+    private ItemClicked activity;
 
     public interface ItemClicked {
         void onItemClicked(int index);
     }
 
     public EventAdapter(HomeFragment fragment, ArrayList<Event> list) {
-        event = list;
+        eventList = list;
         activity = (ItemClicked) fragment;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivIcon;
-        TextView tvName;
-        TextView tvTime;
-        TextView tvDuration;
-        TextView tvDate;
-        CheckBox cbCompleted;
+        public View mView;
+        public ImageView ivIcon;
+        public TextView tvName;
+        public TextView tvTime;
+        public TextView tvDuration;
+        public TextView tvDate;
+        public CheckBox cbCompleted;
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
+            mView = itemView;
 
             ivIcon = itemView.findViewById(R.id.ivIcon);
             tvName = itemView.findViewById(R.id.tvName);
@@ -51,7 +57,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.onItemClicked(event.indexOf(view.getTag()));
+                    activity.onItemClicked(eventList.indexOf(view.getTag()));
                 }
             });
         }
@@ -67,14 +73,31 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EventAdapter.ViewHolder holder, int position) {
-        holder.itemView.setTag(event.get(position));
+    public void onBindViewHolder(@NonNull final EventAdapter.ViewHolder holder, int position) {
+        holder.itemView.setTag(eventList.get(position));
+
+        Event event = eventList.get(position);
+        ((ViewHolder) holder).tvName.setText(event.getEventName());
+        ((ViewHolder) holder).tvTime.setText(event.getTime());
+        ((ViewHolder) holder).tvDuration.setText(event.getDuration());
+        ((ViewHolder) holder).tvDate.setText(event.getDate());
 
 
         holder.cbCompleted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Clicky click", Toast.LENGTH_SHORT).show();
+                //eventView = holder.itemView.findViewById(R.id.eventCV);
+
+                CheckBox checkBox = (CheckBox) view;
+                if (checkBox.isChecked()) {
+                    Toast.makeText(view.getContext(), view.getContext().getString(R.string.event_completed), Toast.LENGTH_SHORT).show();
+                    //eventView.setCardBackgroundColor(Color.GREEN);
+                    ((ViewHolder) holder).ivIcon.setImageResource(R.drawable.done_icon);
+
+                } else {
+                    //eventView.setCardBackgroundColor(ContextCompat.getColor(holder.mView.getContext(), R.color.cardColor));
+                    ((ViewHolder) holder).ivIcon.setImageResource(R.drawable.alert_icon);
+                }
             }
         });
 //        holder.tvName.setText(event.get(position).getName());
@@ -90,6 +113,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return event.size();
+        return eventList.size();
     }
 }

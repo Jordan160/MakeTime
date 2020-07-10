@@ -15,8 +15,10 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jvetter2.maketime.Event;
 import com.jvetter2.maketime.EventAdapter;
+import com.jvetter2.maketime.MainActivity;
 import com.jvetter2.maketime.R;
 
 import java.util.ArrayList;
@@ -43,17 +45,12 @@ public class HomeFragment extends Fragment implements EventAdapter.ItemClicked {
         recyclerView.setLayoutManager(layoutManager);
 
         event = new ArrayList<Event>();
-        event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
-        event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
-        event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
-        event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
-        event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
-        event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
-        event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
-        event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
-        event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
-        event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
-        event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
+        //event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
+
+        for(int i=0; i < MainActivity.eventNames.size(); i++) {
+            event.add(new Event(MainActivity.eventNames.get(i), MainActivity.eventDuration.get(i),
+                    MainActivity.eventTimeOfDay.get(i), MainActivity.eventDate.get(i)));
+        }
 
         myAdapter = new EventAdapter(this, event);
 
