@@ -82,7 +82,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull final EventAdapter.ViewHolder holder, int position) {
         holder.itemView.setTag(eventList.get(position));
 
-        Event event = eventList.get(position);
+        final Event event = eventList.get(position);
         ((ViewHolder) holder).tvName.setText(event.getEventName());
         ((ViewHolder) holder).tvTime.setText(event.getTime());
         ((ViewHolder) holder).tvDuration.setText(event.getDuration());
@@ -91,13 +91,21 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public boolean onLongClick(final View view) {
                 new AlertDialog.Builder(view.getContext())
                         .setTitle(R.string.event_delete)
                         .setMessage(R.string.event_confirmation)
-
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    SQLiteDatabase recipeDatabase = view.getContext().openOrCreateDatabase("events", MODE_PRIVATE, null);
+                                    deleteEvent(event.getEventName(), recipeDatabase);
+
+                                    Intent intent = new Intent(view.getContext(), MainActivity.class);
+                                    view.getContext().startActivity(intent);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                                 // Continue with delete operation
 
                             }
@@ -132,5 +140,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         return eventList.size();
+    }
+
+    public static boolean deleteEvent(String name, SQLiteDatabase eventDatabase) {
+        return eventDatabase.delete("events", "name" + " = ?", new String[] { name }) > 0;
     }
 }
