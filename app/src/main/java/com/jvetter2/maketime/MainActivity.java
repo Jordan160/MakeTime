@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
             //myDatabase.execSQL("INSERT INTO events VALUES('SkyHarp', 'Morning', '01/01/2020', '30 Minutes');");
 
-            Cursor c = myDatabase.rawQuery("SELECT * FROM events ORDER BY name COLLATE NOCASE ASC", null);
+            Cursor c = myDatabase.rawQuery("SELECT * FROM events ORDER BY date COLLATE NOCASE ASC", null);
 
             int nameIndex = c.getColumnIndex("name");
             int timeIndex = c.getColumnIndex("time");

@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Prendre le temps</string>
+    <string name="nav_header_desc">En-tête de navigation</string>
+    <string name="action_settings">Paramètres</string>
+
+    <string name="menu_home">Accueil</string>
+
+    <string name="event_completed">Bon travail!</string>
+
+
+    <string name="event_name">Nom de l\'événement</string>
+    <string name="event_time">Temps</string>
+    <string name="event_duration">Durée</string>
+    <string name="event_date">Date</string>
+    <string name="completed">Terminé</string>
+
+    <string name="event_delete">Supprimer l\'événement?</string>
+    <string name="event_confirmation">Voulez-vous vraiment supprimer cet événement?</string>
+
+
+    <string-array name="time_of_day">
+        <item>Moment de la journée</item>
+        <item>Matin</item>
+        <item>Après midi</item>
+        <item>Nuit</item>
+    </string-array>
+</resources>

@@ -69,6 +69,8 @@ public class HomeFragment extends Fragment implements EventAdapter.ItemClicked {
 
     @Override
     public void onItemClicked(int index) {
-         Toast.makeText(getContext(), "Surname: " + event.get(index).getEventName(), Toast.LENGTH_SHORT).show();
+         //Toast.makeText(getContext(), "Surname: " + event.get(index).getEventName(), Toast.LENGTH_SHORT).show();
     }
+
+
 }

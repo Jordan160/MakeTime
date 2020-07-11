@@ -1,6 +1,10 @@
 package com.jvetter2.maketime;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jvetter2.maketime.ui.home.HomeFragment;
 
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private ArrayList<Event> eventList;
@@ -83,6 +89,27 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         ((ViewHolder) holder).tvDate.setText(event.getDate());
 
 
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                new AlertDialog.Builder(view.getContext())
+                        .setTitle(R.string.event_delete)
+                        .setMessage(R.string.event_confirmation)
+
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Continue with delete operation
+
+                            }
+                        })
+
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+                return true;
+            }
+        });
+
         holder.cbCompleted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,15 +127,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 }
             }
         });
-//        holder.tvName.setText(event.get(position).getName());
-//        holder.tvSurname.setText(event.get(position).getSurname());
-//
-//        if (event.get(position).getPreference().equals("bus")) {
-//            holder.ivPref.setImageResource(R.drawable.bus);
-//        } else {
-//            holder.ivPref.setImageResource(R.drawable.plane);
-//        }
-
     }
 
     @Override
