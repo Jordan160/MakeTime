@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:title="@string/action_settings"
+    tools:context=".SettingsActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="54dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="47dp"
+        android:layout_marginEnd="216dp"
+        android:text="@string/language_selection"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="306dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <RadioButton
+            android:id="@+id/englishButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/language_english" />
+
+        <RadioButton
+            android:id="@+id/spanishButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/language_spanish" />
+
+        <RadioButton
+            android:id="@+id/frenchButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/language_french" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/saveButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="278dp"
+        android:layout_marginTop="230dp"
+        android:layout_marginEnd="45dp"
+        android:text="@string/language_save"
+        android:textColorHighlight="@color/colorPrimaryDark"
+        android:textColorLink="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,14 +2,16 @@ package com.jvetter2.maketime;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.fragment.app.FragmentManager;
@@ -44,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setLanguage();
+        setTitle(R.string.app_name);
 
         mFragmentManager = this.getSupportFragmentManager();
-
-        SharedPreferences preferences =
-                getSharedPreferences("my_preferences", MODE_PRIVATE);
 
         initializeDatabase();
 
@@ -79,9 +80,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            default: return false;
+        }
     }
 
     @Override
@@ -89,11 +100,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -146,6 +152,15 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setLanguage() {
+        SharedPreferences preferences =
+                getSharedPreferences("my_preferences", MODE_PRIVATE);
+        String language = preferences.getString("language", "default");
+        if (!language.equalsIgnoreCase("default")) {
+            LanguageHelper.updateLanguage(language, this);
         }
     }
 }

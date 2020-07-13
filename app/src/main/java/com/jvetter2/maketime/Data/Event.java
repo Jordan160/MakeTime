@@ -1,4 +1,4 @@
-package com.jvetter2.maketime;
+package com.jvetter2.maketime.Data;
 
 import java.util.Date;
 

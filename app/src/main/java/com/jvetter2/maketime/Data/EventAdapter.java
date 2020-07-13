@@ -1,11 +1,9 @@
-package com.jvetter2.maketime;
+package com.jvetter2.maketime.Data;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +14,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jvetter2.maketime.MainActivity;
+import com.jvetter2.maketime.R;
 import com.jvetter2.maketime.ui.home.HomeFragment;
 
 import java.util.ArrayList;

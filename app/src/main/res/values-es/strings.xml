@@ -15,6 +15,11 @@
     <string name="event_delete">¿Eliminar evento?</string>
     <string name="event_confirmation">¿Seguro que quieres eliminar este evento?</string>
 
+    <string name="language_selection">Seleccione el idioma</string>
+    <string name="language_english">Inglés</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_french">Francés</string>
+    <string name="language_save">Salvar</string>
 
     <string-array name="time_of_day">
         <item>Hora del día</item>
