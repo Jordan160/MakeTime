@@ -1,9 +1,11 @@
 package com.jvetter2.maketime.Data;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jvetter2.maketime.MainActivity;
@@ -87,6 +90,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         ((ViewHolder) holder).tvDuration.setText(event.getDuration());
         ((ViewHolder) holder).tvDate.setText(event.getDate());
 
+        if (event.getCompleted()) {
+            holder.cbCompleted.setChecked(true);
+            ((ViewHolder) holder).ivIcon.setImageResource(R.drawable.done_icon);
+        } else {
+            holder.cbCompleted.setChecked(false);
+            ((ViewHolder) holder).ivIcon.setImageResource(R.drawable.alert_icon);
+        }
+
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -97,8 +108,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
-                                    SQLiteDatabase recipeDatabase = view.getContext().openOrCreateDatabase("events", MODE_PRIVATE, null);
-                                    deleteEvent(event.getEventName(), recipeDatabase);
+                                    SQLiteDatabase eventDatabase = view.getContext().openOrCreateDatabase("events", MODE_PRIVATE, null);
+                                    deleteEvent(event.getEventName(), eventDatabase);
 
                                     Intent intent = new Intent(view.getContext(), MainActivity.class);
                                     view.getContext().startActivity(intent);
@@ -120,13 +131,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         holder.cbCompleted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //eventView = holder.itemView.findViewById(R.id.eventCV);
+                eventView = holder.itemView.findViewById(R.id.eventCV);
+                SQLiteDatabase eventDatabase = view.getContext().openOrCreateDatabase("events", MODE_PRIVATE, null);
 
                 CheckBox checkBox = (CheckBox) view;
                 if (checkBox.isChecked()) {
                     Toast.makeText(view.getContext(), view.getContext().getString(R.string.event_completed), Toast.LENGTH_SHORT).show();
                     //eventView.setCardBackgroundColor(Color.GREEN);
                     ((ViewHolder) holder).ivIcon.setImageResource(R.drawable.done_icon);
+                    completeEvent(event.getEventName(), eventDatabase);
 
                 } else {
                     //eventView.setCardBackgroundColor(ContextCompat.getColor(holder.mView.getContext(), R.color.cardColor));
@@ -143,5 +156,23 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     public static boolean deleteEvent(String name, SQLiteDatabase eventDatabase) {
         return eventDatabase.delete("events", "name" + " = ?", new String[] { name }) > 0;
+    }
+
+    public void completeEvent(String name, SQLiteDatabase eventDatabase) {
+        //return eventDatabase.update("events", "name" + " = ?", new String[] { name }) > 0;
+
+        String selection = "name" + " LIKE ?";
+        String[] selectionArgs = {name};
+
+        ContentValues cv = new ContentValues();
+        //cv.put("name", name);
+        cv.put("status", "true");
+
+
+            int count = eventDatabase.update(
+                    "events",
+                    cv,
+                    selection,
+                    selectionArgs);
     }
 }

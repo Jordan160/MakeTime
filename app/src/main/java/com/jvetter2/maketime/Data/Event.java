@@ -7,13 +7,14 @@ public class Event {
     private String duration;
     private String time;
     private String date;
-    private Boolean status;
+    private Boolean completed;
 
-    public Event(String eventName, String duration, String time, String date) {
+    public Event(String eventName, String duration, String time, String date, boolean completed) {
         this.eventName = eventName;
         this.duration = duration;
         this.time = time;
         this.date = date;
+        this.completed = completed;
     }
 
     public String getDate() {
@@ -48,11 +49,11 @@ public class Event {
         this.time = time;
     }
 
-    public Boolean getStatus() {
-        return status;
+    public Boolean getCompleted() {
+        return completed;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
     }
 }
