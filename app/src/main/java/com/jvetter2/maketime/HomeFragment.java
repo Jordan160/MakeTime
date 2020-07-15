@@ -1,4 +1,4 @@
-package com.jvetter2.maketime.ui.home;
+package com.jvetter2.maketime;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -22,8 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jvetter2.maketime.Data.Event;
 import com.jvetter2.maketime.Data.EventAdapter;
-import com.jvetter2.maketime.MainActivity;
-import com.jvetter2.maketime.R;
 import com.jvetter2.maketime.notifications.EventReceiver;
 
 import java.util.ArrayList;
