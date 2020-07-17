@@ -37,9 +37,6 @@ public class AddEditFragment extends Fragment {
 
 
     FloatingActionButton save;
-//    String name;
-//    String duration;
-//    String date;
     String[] timeOfDayCategories;
 
 

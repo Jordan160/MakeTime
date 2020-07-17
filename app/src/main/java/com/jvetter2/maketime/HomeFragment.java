@@ -121,7 +121,7 @@ public class HomeFragment extends Fragment implements EventAdapter.ItemClicked {
         notificationView.setOnClickPendingIntent(R.id.dismissButton,
                 pendingSwitchIntent);
 
-        notificationManager.notify(100, notification);
+        //notificationManager.notify(100, notification);
     }
 
 }
