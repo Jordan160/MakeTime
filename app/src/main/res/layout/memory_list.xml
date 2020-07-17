@@ -34,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="80dp"
+                android:id="@+id/linearLayout"
                 android:orientation="vertical">
 
                 <TextView
@@ -67,8 +68,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="260dp"
-                android:orientation="vertical">
+                android:layout_toRightOf="@id/linearLayout"
+                android:gravity="right"
+                android:orientation="vertical"
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/tvDate"
@@ -77,6 +80,7 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="10dp"
                     android:text="05/01/2020"
+                    android:gravity="right"
                     android:textSize="16sp" />
 
                 <CheckBox
@@ -84,6 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
+                    android:layout_gravity="right"
                     android:text="@string/completed" />
             </LinearLayout>
         </RelativeLayout>

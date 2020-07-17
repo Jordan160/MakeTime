@@ -1,10 +1,17 @@
 package com.jvetter2.maketime;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -14,6 +21,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -22,6 +30,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.jvetter2.maketime.notifications.EventReceiver;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -29,6 +38,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.Button;
+import android.widget.RemoteViews;
 
 import java.util.ArrayList;
 
@@ -37,11 +48,13 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private FloatingActionButton fab;
     FragmentManager mFragmentManager;
+    NotificationManager notificationManager;
 
     public static ArrayList<String> eventNames = new ArrayList();
     public static ArrayList<String> eventTimeOfDay = new ArrayList();
     public static ArrayList<String> eventDate = new ArrayList();
     public static ArrayList<String> eventDuration = new ArrayList();
+    public static ArrayList<Boolean> eventStatus = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        //sendNotification();
+        //startNotification();
     }
 
     @Override
@@ -91,7 +107,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
-            default: return false;
+            default:
+                return false;
         }
     }
 
@@ -119,14 +136,15 @@ public class MainActivity extends AppCompatActivity {
         eventTimeOfDay.clear();
         eventDate.clear();
         eventDuration.clear();
+        eventStatus.clear();
 
         SQLiteDatabase myDatabase = this.openOrCreateDatabase("events", MODE_PRIVATE, null);
 
         try {
             myDatabase.execSQL("CREATE TABLE IF NOT EXISTS events (name VARCHAR, time VARCHAR, " +
-                    "date VARCHAR, duration VARCHAR)");
+                    "date VARCHAR, duration VARCHAR, status VARCHAR)");
 
-            //myDatabase.execSQL("INSERT INTO events VALUES('SkyHarp', 'Morning', '01/01/2020', '30 Minutes');");
+            //myDatabase.execSQL("INSERT INTO events VALUES('SkyHarp', 'Morning', '01/01/2020', '30 Minutes', 'false');");
 
             Cursor c = myDatabase.rawQuery("SELECT * FROM events ORDER BY date COLLATE NOCASE ASC", null);
 
@@ -134,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
             int timeIndex = c.getColumnIndex("time");
             int dateIndex = c.getColumnIndex("date");
             int durationIndex = c.getColumnIndex("duration");
+            int statusIndex = c.getColumnIndex("status");
 
             c.moveToFirst();
 
@@ -142,11 +161,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("time: ", c.getString(timeIndex));
                 Log.i("date: ", c.getString(dateIndex));
                 Log.i("duration: ", c.getString(durationIndex));
+                Log.i("status: ", c.getString(statusIndex));
 
                 eventNames.add(c.getString(nameIndex));
                 eventTimeOfDay.add(c.getString(timeIndex));
                 eventDate.add(c.getString(dateIndex));
                 eventDuration.add(c.getString(durationIndex));
+                eventStatus.add(Boolean.valueOf(c.getString(statusIndex)));
 
                 c.moveToNext();
             }

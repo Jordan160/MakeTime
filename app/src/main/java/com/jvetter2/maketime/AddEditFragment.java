@@ -37,9 +37,6 @@ public class AddEditFragment extends Fragment {
 
 
     FloatingActionButton save;
-//    String name;
-//    String duration;
-//    String date;
     String[] timeOfDayCategories;
 
 
@@ -87,6 +84,7 @@ public class AddEditFragment extends Fragment {
                     cv.put("time", categorySpinner.getSelectedItem().toString());
                     cv.put("date", dateET.getText().toString());
                     cv.put("duration", durationET.getText().toString());
+                    cv.put("status", "false");
 
                     try {
                         long count = eventDatabase.insert(
