@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +24,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //FirebaseAuth.getInstance().signOut();
         setLanguage();
         setTitle(R.string.app_name);
 
