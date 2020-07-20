@@ -14,6 +14,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.util.DisplayMetrics;
@@ -30,6 +34,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.jvetter2.maketime.notifications.EventReceiver;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //FirebaseAuth.getInstance().signOut();
         setLanguage();
         setTitle(R.string.app_name);
 
@@ -185,3 +191,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
+
+
+
+
+//318027238525-l6t8915c5pe9ab8m5hejiba8rb714l77.apps.googleusercontent.com
+//QpNgl0vCnshxr4GPIbWv2ayA
+
+
+
+//756979620471-kgfgjra2ip8l88v4vqsr2vgs8hritv9g.apps.googleusercontent.com
+//eQm58jFEEeWxCIjLO5m-hYfo
