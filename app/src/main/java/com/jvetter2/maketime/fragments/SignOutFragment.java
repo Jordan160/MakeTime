@@ -1,4 +1,4 @@
-package com.jvetter2.maketime;
+package com.jvetter2.maketime.fragments;
 
 
 import android.content.Intent;
@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
-import com.jvetter2.maketime.ui.login.LoginActivity;
+import com.jvetter2.maketime.LoginActivity;
+import com.jvetter2.maketime.R;
 
 
 /**

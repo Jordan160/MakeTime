@@ -1,4 +1,4 @@
-package com.jvetter2.maketime;
+package com.jvetter2.maketime.fragments;
 
 
 import android.content.ContentValues;
@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jvetter2.maketime.MainActivity;
+import com.jvetter2.maketime.R;
 
 import static android.content.Context.MODE_PRIVATE;
 

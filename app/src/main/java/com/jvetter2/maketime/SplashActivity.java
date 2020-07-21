@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.jvetter2.maketime.ui.login.LoginActivity;
-
 public class SplashActivity extends AppCompatActivity {
 
     @Override

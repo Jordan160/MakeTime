@@ -1,4 +1,4 @@
-package com.jvetter2.maketime.ui.login;
+package com.jvetter2.maketime;
 
 import android.content.Context;
 import android.content.Intent;
