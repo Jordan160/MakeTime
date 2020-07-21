@@ -28,6 +28,14 @@
     <string name="event_duration_validation" translatable="false">Please enter event duration</string>
     <string name="event_time_of_day_validation" translatable="false">Please select a time of day</string>
 
+    <string name="title_activity_login">Sign In</string>
+
+    <string name="invalid_username" translatable="false">Not a valid username</string>
+    <string name="invalid_password" translatable="false">Password must be >5 characters</string>
+    <string name="login_failed" translatable="false">"Login failed"</string>
+
+    <string name="sign_out">Sign out</string>
+
 
     <string-array name="time_of_day">
         <item>Time of Day</item>
@@ -35,16 +43,6 @@
         <item>Afternoon</item>
         <item>Night</item>
     </string-array>
-    <string name="title_activity_login">Sign in</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
 
-    <string name ="web_client_id">190056213431-o8hgvgb122d7jkir8p3nqp2foab9dars.apps.googleusercontent.com</string>
-<!--    //<string name="web_client_id">"756979620471-kgfgjra2ip8l88v4vqsr2vgs8hritv9g.apps.googleusercontent.com"</string>-->
+    <string name="web_client_id" translatable="false">190056213431-o8hgvgb122d7jkir8p3nqp2foab9dars.apps.googleusercontent.com</string>
 </resources>

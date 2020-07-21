@@ -23,6 +23,10 @@
     <string name="language_french">Français</string>
     <string name="language_save">sauver</string>
 
+    <string name="title_activity_login">Se connecter</string>
+
+    <string name="sign_out">Déconnexion</string>
+
     <string-array name="time_of_day">
         <item>Moment de la journée</item>
         <item>Matin</item>

@@ -9,6 +9,11 @@
         android:id="@+id/nav_home"
         android:name="com.jvetter2.maketime.HomeFragment"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/sign_out"
+        android:name="com.jvetter2.maketime.SignOutFragment"
+        tools:layout="@layout/fragment_sign_out" />
 </navigation>
 
 
