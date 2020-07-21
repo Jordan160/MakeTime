@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -111,7 +113,7 @@ public class AddEditFragment extends Fragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (validateFields()) {
+                if (validateFields()) {
                     ContentValues cv = new ContentValues();
                     cv.put("name", nameET.getText().toString());
                     cv.put("time", categorySpinner.getSelectedItem().toString());
@@ -131,14 +133,40 @@ public class AddEditFragment extends Fragment {
                         e.printStackTrace();
                     }
                 }
-            //}
+            }
         });
     }
 
     private void updateLabel(Calendar myCalendar) {
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM/dd/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         dateET.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    private Boolean validateFields() {
+        if(nameET.getText().toString().isEmpty()) {
+            nameET.setError(getString(R.string.event_name_validation));
+            return false;
+        }
+
+        if(categorySpinner.getSelectedItem().toString().equalsIgnoreCase(timeOfDayCategories[0])) {
+            TextView errorText = (TextView)categorySpinner.getSelectedView();
+            errorText.setError("");
+            errorText.setTextColor(Color.RED);
+            errorText.setText(getString(R.string.event_time_of_day_validation));
+            return false;
+        }
+
+        if(durationET.getText().toString().isEmpty()) {
+            durationET.setError(getString(R.string.event_duration_validation));
+            return false;
+        }
+
+        if(dateET.getText().toString().isEmpty()) {
+            dateET.setError(getString(R.string.event_date_validation));
+            return false;
+        }
+        return true;
     }
 }

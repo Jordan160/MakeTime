@@ -23,6 +23,11 @@
     <string name="event_delete">Delete Event?</string>
     <string name="event_confirmation">Are you sure you want to delete this event?</string>
 
+    <string name="event_name_validation" translatable="false">Please provide an event name</string>
+    <string name="event_date_validation" translatable="false">Please select a date</string>
+    <string name="event_duration_validation" translatable="false">Please enter event duration</string>
+    <string name="event_time_of_day_validation" translatable="false">Please select a time of day</string>
+
 
     <string-array name="time_of_day">
         <item>Time of Day</item>
