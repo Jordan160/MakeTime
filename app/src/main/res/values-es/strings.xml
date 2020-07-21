@@ -21,6 +21,10 @@
     <string name="language_french">Francés</string>
     <string name="language_save">Salvar</string>
 
+    <string name="title_activity_login">Registrarse</string>
+
+    <string name="sign_out">Desconectar</string>
+
     <string-array name="time_of_day">
         <item>Hora del día</item>
         <item>Mañana</item>
