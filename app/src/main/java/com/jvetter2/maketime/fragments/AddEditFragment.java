@@ -1,4 +1,4 @@
-package com.jvetter2.maketime;
+package com.jvetter2.maketime.fragments;
 
 
 import android.app.DatePickerDialog;
@@ -24,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jvetter2.maketime.MainActivity;
+import com.jvetter2.maketime.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
