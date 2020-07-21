@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                findViewById(R.id.loading).setVisibility(View.VISIBLE);
                 signIn();
             }
         });
@@ -96,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("SignIn", "Google sign in failed", e);
+                findViewById(R.id.loading).setVisibility(View.GONE);
             }
         }
     }
@@ -106,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        findViewById(R.id.loading).setVisibility(View.GONE);
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("Log", "signInWithCredential:success");
@@ -120,5 +123,10 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }
