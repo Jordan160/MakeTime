@@ -1,4 +1,4 @@
-package com.jvetter2.maketime;
+package com.jvetter2.maketime.fragments;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -22,6 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jvetter2.maketime.Data.Event;
 import com.jvetter2.maketime.Data.EventAdapter;
+import com.jvetter2.maketime.Data.HomeViewModel;
+import com.jvetter2.maketime.MainActivity;
+import com.jvetter2.maketime.R;
 import com.jvetter2.maketime.notifications.EventReceiver;
 
 import java.util.ArrayList;
@@ -50,7 +53,7 @@ public class HomeFragment extends Fragment implements EventAdapter.ItemClicked {
         event = new ArrayList<Event>();
         //event.add(new Event("Test Event", "30 minutes", "Morning", "01/01/2020"));
 
-        for(int i=0; i < MainActivity.eventNames.size(); i++) {
+        for(int i = 0; i < MainActivity.eventNames.size(); i++) {
             event.add(new Event(MainActivity.eventNames.get(i), MainActivity.eventDuration.get(i),
                     MainActivity.eventTimeOfDay.get(i), MainActivity.eventDate.get(i), MainActivity.eventStatus.get(i)));
         }

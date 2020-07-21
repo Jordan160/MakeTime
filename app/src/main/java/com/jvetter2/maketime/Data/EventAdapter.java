@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jvetter2.maketime.MainActivity;
 import com.jvetter2.maketime.R;
-import com.jvetter2.maketime.HomeFragment;
+import com.jvetter2.maketime.fragments.HomeFragment;
 
 import java.util.ArrayList;
 
