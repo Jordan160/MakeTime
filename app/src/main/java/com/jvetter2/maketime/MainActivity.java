@@ -1,6 +1,5 @@
 package com.jvetter2.maketime;
 
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //FirebaseAuth.getInstance().signOut();
         setLanguage();
         setTitle(R.string.app_name);
 

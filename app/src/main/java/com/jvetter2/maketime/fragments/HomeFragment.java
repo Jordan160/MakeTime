@@ -1,5 +1,6 @@
 package com.jvetter2.maketime.fragments;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,51 +82,72 @@ public class HomeFragment extends Fragment implements EventAdapter.ItemClicked {
          //Toast.makeText(getContext(), "Surname: " + event.get(index).getEventName(), Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        startNotification();
+        //EventReceiver.setDelayedNotification(getContext(), 200);
+
+    }
+
     private void startNotification() {
-        String ns = Context.NOTIFICATION_SERVICE;
-        NotificationManager notificationManager =
-                (NotificationManager) getContext().getSystemService(ns);
+//        String ns = Context.NOTIFICATION_SERVICE;
+//        NotificationManager notificationManager =
+//                (NotificationManager) getContext().getSystemService(ns);
+//
+////        notificationManager =
+////                (NotificationManager)
+////                        getSystemService(Context.NOTIFICATION_SERVICE);
+//        NotificationChannel notificationChannel = new NotificationChannel("meatball", "Your Notifications",
+//                NotificationManager.IMPORTANCE_HIGH);
+//
+//        if (notificationManager != null) {
+//            notificationManager.createNotificationChannel(notificationChannel);
+//        }
+//
+//        RemoteViews notificationView = new RemoteViews(getContext().getPackageName(),
+//                R.layout.notification_layout);
+//
+//        RemoteViews contentView = new RemoteViews(getContext().getPackageName(), R.layout.notification_layout);
+//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext(), "meatball")
+//                .setSmallIcon(R.raw.time_icon)
+//                .setContent(contentView);
+//
+//        Notification notification = mBuilder.build();
+//        mBuilder.setCustomContentView(contentView);
+//
+//        //the intent that is started when the notification is clicked (works)
+//        Intent notificationIntent = new Intent(getContext(), MainActivity.class);
+//        PendingIntent pendingNotificationIntent = PendingIntent.getActivity(getContext(), 0,
+//                notificationIntent, 0);
+//
+//        notification.contentView = notificationView;
+//        notification.contentIntent = pendingNotificationIntent;
+//        notification.flags |= Notification.FLAG_NO_CLEAR;
+//
+//        //this is the intent that is supposed to be called when the
+//        //button is clicked
+//
+//        Intent switchIntent = new Intent(getContext(), EventReceiver.class);
+//        switchIntent.putExtra("dismiss", true);
+//        PendingIntent pendingSwitchIntent = PendingIntent.getBroadcast(getContext(), 0,
+//                switchIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+//
+//        notificationView.setOnClickPendingIntent(R.id.dismissButton,
+//                pendingSwitchIntent);
 
-//        notificationManager =
-//                (NotificationManager)
-//                        getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel notificationChannel = new NotificationChannel("meatball", "Your Notifications",
-                NotificationManager.IMPORTANCE_HIGH);
 
-        if (notificationManager != null) {
-            notificationManager.createNotificationChannel(notificationChannel);
-        }
+        Intent scheduleIntent = new Intent(getContext(), EventReceiver.class);
+        scheduleIntent.putExtra("notification_id", 0);
+        PendingIntent scheduledIntent = PendingIntent.getBroadcast(getContext(), 0,
+                scheduleIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        RemoteViews notificationView = new RemoteViews(getContext().getPackageName(),
-                R.layout.notification_layout);
+        long futureInMillis = SystemClock.elapsedRealtime() + 1000;
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, scheduledIntent);
 
-        RemoteViews contentView = new RemoteViews(getContext().getPackageName(), R.layout.notification_layout);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext(), "meatball")
-                .setSmallIcon(R.raw.time_icon)
-                .setContent(contentView);
-
-        Notification notification = mBuilder.build();
-        mBuilder.setCustomContentView(contentView);
-
-        //the intent that is started when the notification is clicked (works)
-        Intent notificationIntent = new Intent(getContext(), MainActivity.class);
-        PendingIntent pendingNotificationIntent = PendingIntent.getActivity(getContext(), 0,
-                notificationIntent, 0);
-
-        notification.contentView = notificationView;
-        notification.contentIntent = pendingNotificationIntent;
-        notification.flags |= Notification.FLAG_NO_CLEAR;
-
-        //this is the intent that is supposed to be called when the
-        //button is clicked
-        Intent switchIntent = new Intent(getContext(), EventReceiver.class);
-        PendingIntent pendingSwitchIntent = PendingIntent.getBroadcast(getContext(), 0,
-                switchIntent, 0);
-
-        notificationView.setOnClickPendingIntent(R.id.dismissButton,
-                pendingSwitchIntent);
-
-        notificationManager.notify(100, notification);
+        //notificationManager.notify(100, notification);
     }
 
 }
