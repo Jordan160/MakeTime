@@ -1,6 +1,5 @@
 package com.jvetter2.maketime;
 
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -40,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<String> eventDate = new ArrayList();
     public static ArrayList<String> eventDuration = new ArrayList();
     public static ArrayList<Boolean> eventStatus = new ArrayList();
+    public static ArrayList<String> eventId = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //FirebaseAuth.getInstance().signOut();
         setLanguage();
         setTitle(R.string.app_name);
 
@@ -120,12 +119,13 @@ public class MainActivity extends AppCompatActivity {
         eventDate.clear();
         eventDuration.clear();
         eventStatus.clear();
+        eventId.clear();
 
         SQLiteDatabase myDatabase = this.openOrCreateDatabase("events", MODE_PRIVATE, null);
 
         try {
             myDatabase.execSQL("CREATE TABLE IF NOT EXISTS events (name VARCHAR, time VARCHAR, " +
-                    "date VARCHAR, duration VARCHAR, status VARCHAR)");
+                    "date VARCHAR, duration VARCHAR, status VARCHAR, id INT)");
 
             //myDatabase.execSQL("INSERT INTO events VALUES('SkyHarp', 'Morning', '01/01/2020', '30 Minutes', 'false');");
 
@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
             int dateIndex = c.getColumnIndex("date");
             int durationIndex = c.getColumnIndex("duration");
             int statusIndex = c.getColumnIndex("status");
+            int idIndex = c.getColumnIndex("id");
 
             c.moveToFirst();
 
@@ -145,12 +146,14 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("date: ", c.getString(dateIndex));
                 Log.i("duration: ", c.getString(durationIndex));
                 Log.i("status: ", c.getString(statusIndex));
+                Log.i("id: ", c.getString(idIndex));
 
                 eventNames.add(c.getString(nameIndex));
                 eventTimeOfDay.add(c.getString(timeIndex));
                 eventDate.add(c.getString(dateIndex));
                 eventDuration.add(c.getString(durationIndex));
                 eventStatus.add(Boolean.valueOf(c.getString(statusIndex)));
+                eventId.add(c.getString(idIndex));
 
                 c.moveToNext();
             }
