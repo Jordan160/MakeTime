@@ -137,12 +137,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     Toast.makeText(view.getContext(), view.getContext().getString(R.string.event_completed), Toast.LENGTH_SHORT).show();
                     //eventView.setCardBackgroundColor(Color.GREEN);
                     ((ViewHolder) holder).ivIcon.setImageResource(R.drawable.done_icon);
-                    completeEvent(event.getEventName(), eventDatabase, "true");
+                    completeEvent(eventDatabase, "true", event.getId());
 
                 } else {
                     //eventView.setCardBackgroundColor(ContextCompat.getColor(holder.mView.getContext(), R.color.cardColor));
                     ((ViewHolder) holder).ivIcon.setImageResource(R.drawable.alert_icon);
-                    completeEvent(event.getEventName(), eventDatabase, "false");
+                    completeEvent(eventDatabase, "false", event.getId());
                 }
             }
         });
@@ -157,11 +157,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         return eventDatabase.delete("events", "name" + " = ?", new String[] { name }) > 0;
     }
 
-    public void completeEvent(String name, SQLiteDatabase eventDatabase, String complete) {
+    public static void completeEvent(SQLiteDatabase eventDatabase, String complete, String eventID) {
         //return eventDatabase.update("events", "name" + " = ?", new String[] { name }) > 0;
 
-        String selection = "name" + " LIKE ?";
-        String[] selectionArgs = {name};
+        String selection = "id" + " LIKE ?";
+        String[] selectionArgs = {eventID};
 
         ContentValues cv = new ContentValues();
         //cv.put("name", name);

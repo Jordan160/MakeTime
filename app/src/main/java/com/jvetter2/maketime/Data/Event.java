@@ -1,20 +1,20 @@
 package com.jvetter2.maketime.Data;
 
-import java.util.Date;
-
 public class Event {
     private String eventName;
     private String duration;
     private String time;
     private String date;
     private Boolean completed;
+    private String id;
 
-    public Event(String eventName, String duration, String time, String date, boolean completed) {
+    public Event(String eventName, String duration, String time, String date, boolean completed, String id) {
         this.eventName = eventName;
         this.duration = duration;
         this.time = time;
         this.date = date;
         this.completed = completed;
+        this.id = id;
     }
 
     public String getDate() {
@@ -55,5 +55,13 @@ public class Event {
 
     public void setCompleted(Boolean completed) {
         this.completed = completed;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -1,10 +1,14 @@
 package com.jvetter2.maketime.fragments;
 
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +31,13 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jvetter2.maketime.MainActivity;
 import com.jvetter2.maketime.R;
+import com.jvetter2.maketime.notifications.EventReceiver;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -39,6 +48,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class AddEditFragment extends Fragment {
     public static final String TAG = "AddEditFragment";
+    int idNumber;
     EditText nameET;
     EditText durationET;
     EditText dateET;
@@ -80,6 +90,8 @@ public class AddEditFragment extends Fragment {
         durationET = view.findViewById(R.id.durationET);
         save = view.findViewById(R.id.saveFloatingActionButton);
 
+
+
         final Calendar myCalendar = Calendar.getInstance();
         dateET = view.findViewById(R.id.dateET);
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -107,6 +119,7 @@ public class AddEditFragment extends Fragment {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+        idNumber = (int) getIdNumber(eventDatabase);
         saveNewEvent(eventDatabase);
     }
 
@@ -122,6 +135,9 @@ public class AddEditFragment extends Fragment {
                     cv.put("date", dateET.getText().toString());
                     cv.put("duration", durationET.getText().toString());
                     cv.put("status", "false");
+                    cv.put("id", idNumber);
+
+                    scheduleNotification(getContext(), idNumber, nameET.getText().toString(), durationET.getText().toString());
 
                     try {
                         long count = eventDatabase.insert(
@@ -137,6 +153,11 @@ public class AddEditFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public long getIdNumber(SQLiteDatabase db) {
+        long count = DatabaseUtils.queryNumEntries(db, "events");
+        return count;
     }
 
     private void updateLabel(Calendar myCalendar) {
@@ -170,5 +191,44 @@ public class AddEditFragment extends Fragment {
             return false;
         }
         return true;
+    }
+
+    private void scheduleNotification(Context context, int notificationID, String name, String duration) {
+        Intent scheduleIntent = new Intent(context, EventReceiver.class);
+        scheduleIntent.putExtra("schedule_notification", true);
+        scheduleIntent.putExtra("notification_id", notificationID);
+        scheduleIntent.putExtra("name", name);
+        scheduleIntent.putExtra("duration", duration);
+        PendingIntent scheduledIntent = PendingIntent.getBroadcast(context, 0,
+                scheduleIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        String date = dateET.getText().toString();
+
+        String startDateString = date;
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        if (categorySpinner.getSelectedItem().toString().equalsIgnoreCase("Morning")) {
+            startDateString = startDateString.concat(" 09:00:00");
+        } else if (categorySpinner.getSelectedItem().toString().equalsIgnoreCase("Afternoon")) {
+            startDateString = startDateString.concat(" 13:00:00");
+        } else {
+            startDateString = startDateString.concat(" 08:35:00");
+        }
+
+
+        Date startDate = null;
+        try {
+            startDate = df.parse(startDateString);
+            String newDateString = df.format(startDate);
+            System.out.println(newDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        long futureInMillis = startDate.getTime();
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis, scheduledIntent);
     }
 }
