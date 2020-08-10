@@ -1,6 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background">
 
     <ScrollView
@@ -34,30 +35,51 @@
                 android:layout_height="match_parent"
                 android:padding="5dp">
 
-                <Spinner
-                    android:id="@+id/recipeCategorySpinner"
-                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                <EditText
+                    android:id="@+id/ETTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
-                    android:padding="5dp" />
+                    android:padding="5dp"
+                    android:hint="@string/event_time"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/durationLayout"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:padding="5dp">
 
-                <EditText
-                    android:id="@+id/durationET"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/durationTV"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/event_duration"
                     android:imeOptions="actionNext"
-                    android:inputType="textMultiLine"
-                    android:padding="5dp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:padding="5dp"
+                    android:text="@string/event_duration"
+                    android:textSize="18sp" />
+
+                <NumberPicker
+                    android:id="@+id/numberPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/event_duration"/>
+
+                <NumberPicker
+                    android:id="@+id/typePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"/>
+
+
+            </LinearLayout>
+
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/dateLayout"
