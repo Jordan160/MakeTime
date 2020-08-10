@@ -25,6 +25,8 @@ public class EventReceiver extends BroadcastReceiver {
     private int id;
     private int count = 0;
     Context context;
+    private static final String COMPLETE_ACTION = "COMPLETE_ACTION";
+    private static final String DISMISS_ACTION = "DISMISS_ACTION";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -67,6 +69,7 @@ public class EventReceiver extends BroadcastReceiver {
 
             Intent switchIntent = new Intent(context, EventReceiver.class);
             switchIntent.putExtra("notification_id", id);
+            switchIntent.setAction(DISMISS_ACTION);
             PendingIntent pendingSwitchIntent = PendingIntent.getBroadcast(context, 0,
                     switchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -76,6 +79,7 @@ public class EventReceiver extends BroadcastReceiver {
             Intent completeIntent = new Intent(context, EventReceiver.class);
             completeIntent.putExtra("completed", true);
             completeIntent.putExtra("notification_id", id);
+            completeIntent.setAction(COMPLETE_ACTION);
             PendingIntent completeSwitchIntent = PendingIntent.getBroadcast(context, 0,
                     completeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -83,11 +87,12 @@ public class EventReceiver extends BroadcastReceiver {
                     completeSwitchIntent);
 
             notificationManager.notify(id, notification);
-        } else if (completeEvent){
+        } else if (intent.getAction().equals(COMPLETE_ACTION)){
             notificationManager.cancel(id);
             SQLiteDatabase myDatabase = context.openOrCreateDatabase("events", MODE_PRIVATE, null);
             EventAdapter.completeEvent(myDatabase, "true", String.valueOf(id));
             Intent mainIntent = new Intent(context, MainActivity.class);
+            mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(mainIntent);
 
         } else {
